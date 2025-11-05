@@ -207,6 +207,14 @@ body.noscroll{overflow:hidden}
   margin-top:40px;
 }
 
+/* Countdown */
+.cd{
+  color: var(--gold);
+  font: 700 18px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  letter-spacing: .06em;
+  text-transform: none;
+}
+
 /* =========================
    CUENTA ATRÁS / FLASH
    ========================= */
