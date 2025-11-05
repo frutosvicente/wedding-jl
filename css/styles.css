@@ -5,9 +5,18 @@
   --shadow:0 18px 60px rgba(0,0,0,.18);
   --dock-gap:16px;
 
+  /* Polaroid */
+  --cam-body:#f1f1f1;
+  --cam-top:#e5e5e5;
+  --cam-edge:#d8d8d8;
+  --lens-ring:#232323;
+  --lens-core:#0f0f0f;
+  --lens-gloss:rgba(255,255,255,.25);
+
   /* Duración del flash */
-  --flash-ms: 2000ms; /* <-- cambia aquí si quieres 2500ms, etc */
+  --flash-ms: 2000ms; /* ajustable */
 }
+
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
@@ -30,54 +39,118 @@ body.noscroll{overflow:hidden}
   padding:24px;
 }
 
-/* Máquina */
+/* =========================
+   CÁMARA POLAROID VINTAGE
+   ========================= */
 .photobooth{
   width:100%;
   max-width:560px;
-  background:linear-gradient(135deg,#ececec,#d2d2d2);
-  border-radius:22px 22px 12px 12px;
-  padding:24px 22px 18px;
-  position:relative;
-  box-shadow:var(--shadow);
   margin:0 auto;
 }
-.photobooth::before{
-  content:""; position:absolute; top:10px; left:50%; transform:translateX(-50%);
-  width:68px; height:10px; border-radius:6px; background:#a9a9a9;
+
+/* Parte superior (tejadillo) */
+.polaroid .cam-top{
+  height:24px;
+  border-radius:18px 18px 0 0;
+  background:linear-gradient(#f7f7f7, var(--cam-top));
+  border:1px solid var(--cam-edge);
+  border-bottom:none;
+  box-shadow:0 6px 16px rgba(0,0,0,.07);
 }
+
+/* Cuerpo */
+.polaroid .cam-body{
+  position:relative;
+  background:linear-gradient(180deg,#fafafa 0%, var(--cam-body) 100%);
+  border:1px solid var(--cam-edge);
+  border-top:none;
+  border-radius:0 0 14px 14px;
+  padding:26px 22px 28px;
+  box-shadow:var(--shadow);
+}
+
+/* Visor (esquina superior izquierda) */
+.polaroid .vf{
+  position:absolute;
+  left:18px; top:18px;
+  width:46px; height:32px;
+  border-radius:6px;
+  background:linear-gradient(180deg,#0e0e0e,#1a1a1a);
+  box-shadow:inset 0 0 10px rgba(255,255,255,.08), 0 6px 14px rgba(0,0,0,.15);
+  border:2px solid #0c0c0c;
+}
+
+/* Lente */
+.polaroid .lens-wrap{
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 14px;
+}
+.polaroid .lens{
+  width:164px; height:164px; border-radius:50%;
+  background:
+    radial-gradient(60% 60% at 40% 35%, rgba(255,255,255,.15), rgba(255,255,255,0) 60%),
+    radial-gradient(circle at 50% 50%, #181818 0 52%, #0d0d0d 52% 100%);
+  border:12px solid var(--lens-ring);
+  box-shadow:inset 0 0 40px rgba(255,255,255,.08), 0 14px 26px rgba(0,0,0,.25);
+  position:relative;
+}
+.polaroid .lens .glass{
+  position:absolute; inset:0;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, var(--lens-gloss), transparent 45%);
+  mix-blend-mode:screen;
+}
+
+/* Franja arcoíris Polaroid */
+.polaroid .rainbow{
+  display:flex; gap:6px; justify-content:center;
+  margin:12px auto 14px;
+}
+.polaroid .rainbow .r{ display:block; width:28px; height:8px; border-radius:4px; }
+.polaroid .r1{ background:#e91e63 } /* magenta/rosa */
+.polaroid .r2{ background:#ff9800 } /* naranja */
+.polaroid .r3{ background:#ffeb3b } /* amarillo */
+.polaroid .r4{ background:#4caf50 } /* verde */
+.polaroid .r5{ background:#2196f3 } /* azul */
+
+/* Badge de estado (reutilizamos estilos previos de screen) */
 .screen{
   background:#121212;
-  border-radius:12px;
-  padding:24px 18px;
+  border-radius:10px;
+  padding:18px 14px;
   text-align:center;
   box-shadow:inset 0 6px 18px rgba(0,0,0,.55);
+  margin:10px auto 6px;
+  max-width:78%;
 }
 .t1{color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px;font-size:14px}
 .t2{color:#9a9a9a;font:500 12px/1.2 Arial,sans-serif}
 
-/* Botón rojo */
-.button-zone{display:flex;justify-content:center;padding:16px 0 12px}
+/* Botón de disparo */
 .red-btn{
-  width:104px;height:104px;border-radius:50%;
+  width:86px; height:86px; border-radius:50%;
   background:radial-gradient(circle at 30% 30%,#ff5151,var(--btn));
-  border:6px solid #1f1f1f;cursor:pointer;
-  box-shadow:0 10px 26px rgba(224,25,25,.45),inset 0 -6px 12px rgba(0,0,0,.35);
-  transition:transform .15s ease;position:relative;z-index:10;
+  border:6px solid #1f1f1f; cursor:pointer;
+  box-shadow:0 10px 26px rgba(224,25,25,.45), inset 0 -6px 12px rgba(0,0,0,.35);
+  transition:transform .15s ease; position:absolute; right:18px; bottom:18px; z-index:2;
 }
-.red-btn:hover{transform:translateY(-2px)}
-.red-btn:active{transform:translateY(2px)}
+.red-btn:hover{ transform:translateY(-2px) }
+.red-btn:active{ transform:translateY(2px) }
+.shutter{ /* por semántica, nada extra */ }
 
-/* Ranura */
+/* Ranura de salida (como tenías) */
 .slot{
   width:min(420px,80%);
   height:22px;
-  margin:0 auto;
+  margin:12px auto 0;
   background:#121212;
   border-radius:0 0 12px 12px;
   box-shadow:inset 0 4px 10px rgba(0,0,0,.65);
 }
 
-/* Tira (oculta totalmente hasta que la revelamos durante el flash) */
+/* =========================
+   TIRA
+   ========================= */
 .strip{
   display:block;
   width:min(760px,100%);
@@ -86,14 +159,14 @@ body.noscroll{overflow:hidden}
   border-radius:10px;
   box-shadow:var(--shadow);
   opacity:0;
-  visibility:hidden;            /* no visible */
-  height:0;                     /* no ocupa espacio */
+  visibility:hidden;
+  height:0;
   overflow:hidden;
   transition:opacity .4s ease, margin-top .45s ease;
 }
 .strip.is-docked{
-  visibility:visible;           /* se hace visible */
-  height:auto;                  /* ocupa su altura real */
+  visibility:visible;
+  height:auto;
   opacity:1;
   margin:var(--dock-gap) auto 0;
 }
@@ -131,17 +204,19 @@ body.noscroll{overflow:hidden}
   margin-top:40px;
 }
 
-/* Cuenta atrás */
+/* =========================
+   CUENTA ATRÁS / FLASH
+   ========================= */
 .countdown{
   position:fixed; inset:0; display:none; place-items:center;
   background:rgba(0,0,0,.55);
-  backdrop-filter: blur(2px);
+  backdrop-filter:blur(2px);
   z-index:1000;
 }
 .countdown.visible{ display:grid; }
 .count{
   color:#fff; font-weight:700; letter-spacing:.06em;
-  font-size:min(24vw, 180px); line-height:1;
+  font-size:min(24vw,180px); line-height:1;
   text-shadow:0 10px 40px rgba(0,0,0,.5);
   animation:pop .8s ease forwards;
 }
@@ -156,12 +231,10 @@ body.noscroll{overflow:hidden}
   position:fixed; inset:0; background:#fff; pointer-events:none;
   opacity:0; z-index:1100;
 }
-.flash.play{
-  animation:flash var(--flash-ms) ease;
-}
+.flash.play{ animation:flash var(--flash-ms) ease; }
 @keyframes flash{
   0%{ opacity:0 }
-  25%{ opacity:1 }  /* pico de brillo */
+  25%{ opacity:1 }
   100%{ opacity:0 }
 }
 
@@ -169,8 +242,12 @@ body.noscroll{overflow:hidden}
 @media (max-width:600px){
   :root{ --dock-gap:12px; }
   .wrap{max-width:100%;padding:18px}
-  .photobooth{padding:18px 14px 14px}
-  .red-btn{width:86px;height:86px}
+  .polaroid .cam-body{padding:22px 16px 64px}
+  .polaroid .lens{ width:140px; height:140px; border-width:10px; }
+  .rainbow .r{ width:24px; height:7px }
+  .screen{ max-width:92%; }
+  .red-btn{ width:72px; height:72px; right:14px; bottom:14px; }
+  .slot{ margin-top:10px }
   .frame{border-width:10px}
   .content{
     min-height:clamp(260px,50svh,480px);
