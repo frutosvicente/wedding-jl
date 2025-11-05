@@ -207,42 +207,59 @@ body.noscroll{overflow:hidden}
   margin-top:40px;
 }
 
-/* Countdown */
-.cd{
-  color: var(--gold);
-  font: 700 18px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  letter-spacing: .06em;
-  text-transform: none;
-}
-
-/* Cuenta atrás con etiquetas */
+/* Cuenta atrás con números grandes y etiquetas alineadas */
 .cd2{
   color: var(--gold);
   text-align: center;
   user-select: none;
 }
-.cd2 .row{
-  font: 700 clamp(16px,2.6vw,22px)/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  letter-spacing: .06em;
-  display: inline-flex;
-  align-items: baseline;
-  gap: .35em;
+
+/* Cuadrícula de 4 columnas: D  H  M  S */
+.cd2 .grid{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(5ch, auto);
+  gap: 1.1em;
+  justify-content: center;
+  align-items: end;
 }
-.cd2 .num{ min-width: 2ch; display: inline-block; text-align: right; }
-.cd2 .colon{ opacity: .9 }
-.cd2 .labels{
+
+/* Cada columna: número arriba, etiqueta debajo */
+.cd2 .cell{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Números (más grandes que las etiquetas) */
+.cd2 .num{
+  font: 800 clamp(24px, 6vw, 36px)/1 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  letter-spacing: .04em;
+  min-width: 2ch;       /* fija anchura por dígito */
+  text-align: center;
+}
+
+/* Etiquetas pequeñas en mayúsculas */
+.cd2 .lbl{
   margin-top: 6px;
   font: 700 10px/1 Arial, sans-serif;
   letter-spacing: .18em;
   opacity: .9;
-  display: grid;
-  grid-auto-flow: column;
-  gap: .35em;
-  justify-content: center;
   text-transform: uppercase;
 }
-.cd2 .lbl{ min-width: 2ch; text-align: center; }
 
+/* Dos puntos centrados entre columnas (no ocupan celda) */
+.cd2 .cell + .cell{ position: relative; }
+.cd2 .cell + .cell::before{
+  content: ":";
+  position: absolute;
+  left: -0.55em;   /* separador entre columnas */
+  top: 0;
+  transform: translate(-50%, -10%);
+  font: 800 clamp(20px, 5vw, 30px)/1 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  color: var(--gold);
+  opacity: .9;
+}
 
 /* =========================
    CUENTA ATRÁS / FLASH
