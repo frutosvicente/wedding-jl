@@ -76,11 +76,28 @@ body.noscroll{overflow:hidden}
 .polaroid .vf{
   position:absolute;
   left:18px; top:18px;
-  width:46px; height:32px;
-  border-radius:6px;
-  background:linear-gradient(180deg,#0e0e0e,#1a1a1a);
-  box-shadow:inset 0 0 10px rgba(255,255,255,.08), 0 6px 14px rgba(0,0,0,.15);
+  width:78px; height:78px;            /* agrandado para más presencia */
+  border-radius:10px;
+  background:linear-gradient(180deg,#0e0e0e,#181818);
+  box-shadow:inset 0 0 14px rgba(255,255,255,.08), 0 8px 18px rgba(0,0,0,.2);
   border:2px solid #0c0c0c;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* LED verde junto al visor — RELATIVO al visor */
+.polaroid .vf::after{
+  content:"";
+  position:absolute;
+  left: calc(100% + 10px);      /* siempre a la derecha del visor */
+  top: 50%;
+  transform: translateY(-50%);  /* centrado vertical */
+  width:10px; height:10px; border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #bbffcc, #2ecc71 60%, #1e8f4d);
+  box-shadow:
+    0 0 2px rgba(0,0,0,.4),
+    0 0 10px rgba(46,204,113,.6),
+    0 0 18px rgba(46,204,113,.35);
+  pointer-events:none;
 }
 
 /* Lente */
@@ -144,219 +161,28 @@ body.noscroll{overflow:hidden}
 }
 .red-btn:hover{ transform:translateY(-2px) }
 .red-btn:active{ transform:translateY(2px) }
-.shutter{ /* por semántica, nada extra */ }
+.shutter{}
 
-/* Indicador "Pulse aquí" (debajo del botón) */
+/* Indicador "Pulse aquí" (debajo del botón) + animación */
 .hint-img{
   position: absolute;
-  right: -2px;
-  top: calc(14px + var(--btn-size) + 2px); /* justo debajo del botón */
+  right: 18px;
+  top: calc(14px + var(--btn-size) + 8px);
   width: clamp(90px, 18vw, 140px);
-  pointer-events: none;     /* no tapa el botón */
+  pointer-events: none;
   opacity: .9;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
   user-select: none;
-  animation: floatArrow 2.4s ease-in-out infinite;  /* 👈 animación suave */
+  animation: floatArrow 2.4s ease-in-out infinite;
+  transition: opacity .6s ease, transform .6s ease;
 }
+@keyframes floatArrow { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+.hint-img.fade-out{ opacity:0; transform:translateY(-4px); }
 
-.hint-img.fade-out {
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-/* Movimiento vertical leve y cíclico */
-@keyframes floatArrow {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); } /* sube ligeramente */
-}
-
-/* Ranura de salida (como tenías) */
-.slot{
-  width:min(420px,80%);
-  height:22px;
-  margin:6px auto 0;
-  background:#121212;
-  border-radius:0 0 12px 12px;
-  box-shadow:inset 0 4px 10px rgba(0,0,0,.65);
-}
-
-/* =========================
-   TIRA — estilo fotomatón
-   ========================= */
-.strip{
-  display:block;
-  width:min(760px,100%);
-  margin:0 auto;
-  background:#0a0a0a;             /* Fondo negro brillante */
-  border-radius:14px;             /* bordes suaves, tipo marco de carrete */
-  padding:22px 0;                 /* espacio arriba y abajo para que “respiren” las fotos */
-  box-shadow:0 12px 40px rgba(0,0,0,.45);
-  opacity:0;
-  visibility:hidden;
-  height:0;
-  overflow:hidden;
-  transition:opacity .4s ease, margin-top .45s ease;
-}
-.strip.is-docked{
-  visibility:visible;
-  height:auto;
-  opacity:1;
-  margin:var(--dock-gap) auto 0;
-}
-
-
-/* Cada “foto” */
-.frame{
-  background:#fff;
-  border:12px solid #fff;
-  border-radius:10px;
-  margin:14px 10px 18px;
-  box-shadow:0 6px 24px rgba(0,0,0,.12);
-}
-.content{
-  min-height:clamp(240px,68svh,760px);
-  padding:clamp(18px,4vw,34px);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  background:linear-gradient(135deg,#fafafa,#f0f0f0);
-}
-.num{font:600 12px/1 Arial,sans-serif;letter-spacing:.32em;color:var(--gold);margin-bottom:12px}
-.ttl{font-size:clamp(26px,4.2vw,40px);margin:0 0 6px}
-.amp{font:500 16px/1 Arial,sans-serif;color:#777;margin:6px 0 10px}
-.sub{font:400 15px/1.5 Arial,sans-serif;color:#666;max-width:38ch}
-.divider{width:64px;height:2px;background:var(--gold);margin:12px auto 10px}
-.label{font:700 11px/1 Arial,sans-serif;text-transform:uppercase;letter-spacing:.24em;color:var(--gold);margin:10px 0 6px}
-.detail{font:400 16px/1.5 Arial,sans-serif;color:#555}
-.footer{
-  text-align:center;
-  color:#9a9a9a;
-  font:600 12px/1 Arial,sans-serif;
-  letter-spacing:.22em;
-  margin-top:40px;
-}
-
-/* Cuenta atrás con números grandes y etiquetas alineadas */
-.cd2{
-  color: var(--gold);
-  text-align: center;
-  user-select: none;
-}
-
-/* Cuadrícula de 4 columnas: D  H  M  S */
-.cd2 .grid{
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(5ch, auto);
-  gap: 1.1em;
-  justify-content: center;
-  align-items: end;
-}
-
-/* Cada columna: número arriba, etiqueta debajo */
-.cd2 .cell{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Números (más grandes que las etiquetas) */
-.cd2 .num{
-  font: 800 clamp(24px, 6vw, 36px)/1 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  letter-spacing: .04em;
-  min-width: 2ch;       /* fija anchura por dígito */
-  text-align: center;
-}
-
-/* Etiquetas pequeñas en mayúsculas */
-.cd2 .lbl{
-  margin-top: 6px;
-  font: 700 10px/1 Arial, sans-serif;
-  letter-spacing: .18em;
-  opacity: .9;
-  text-transform: uppercase;
-}
-
-/* Dos puntos centrados entre columnas (no ocupan celda) */
-.cd2 .cell + .cell{ position: relative; }
-.cd2 .cell + .cell::before{
-  content: ":";
-  position: absolute;
-  left: -0.55em;   /* separador entre columnas */
-  top: 0;
-  transform: translate(-50%, -10%);
-  font: 800 clamp(20px, 5vw, 30px)/1 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  color: var(--gold);
-  opacity: .9;
-}
-
-/* =========================
-   REALISMO EXTRA POLAROID
-   (sin tocar HTML)
-   ========================= */
-
-/* 1) Cuerpo con relieve/cepillado suave */
-.polaroid .cam-body::before{
-  content:"";
-  position:absolute; inset:0;
-  border-radius:0 0 14px 14px;
-  pointer-events:none;
-  /* brillo superior + “cepillado” horizontal muy sutil */
-  background:
-    linear-gradient(to bottom, rgba(255,255,255,.55), rgba(255,255,255,0) 40%),
-    repeating-linear-gradient(90deg,
-      rgba(0,0,0,.015) 0 1px, transparent 1px 4px);
-  mix-blend-mode:soft-light;
-  opacity:.6;
-}
-
-/* 2) Pequeña marca discreta en el frontal */
-.polaroid .cam-body::after{
-  content:"Instant Camera";
-  position:absolute;
-  left:50%;
-  bottom: 10px;                     /* un poco más alto para móvil con notch/barras */
-  transform:translateX(-50%);
-  font:600 11px/1.1 Arial, sans-serif;
-  letter-spacing:.14em;
-  color:#6a6a6a;
-  opacity:.75;
-  pointer-events:none;
-}
-
-/* 3) Lente con aro de brillo especular extra */
-.polaroid .lens::after{
-  content:"";
-  position:absolute; inset:-4px;
-  border-radius:50%;
-  background:
-    radial-gradient(60% 60% at 35% 30%, rgba(255,255,255,.18), transparent 55%),
-    radial-gradient(circle at 70% 75%, rgba(0,0,0,.35), transparent 50%);
-  pointer-events:none;
-}
-
-/* 4) LED verde junto al visor (no ocupa HTML extra) */
-.polaroid .vf::after{
-  content:"";
-  position:absolute;
-  left: calc(100% + 8px);      /* siempre a la derecha del visor */
-  top: 50%;
-  transform: translateY(-50%); /* centrado vertical relativo */
-  width:10px; height:10px; border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #bbffcc, #2ecc71 60%, #1e8f4d);
-  box-shadow:
-    0 0 2px rgba(0,0,0,.4),
-    0 0 10px rgba(46,204,113,.6),
-    0 0 18px rgba(46,204,113,.35);
-}
-
-/* 5) Ranura con bisel/plástico y sombra interior más real */
+/* Ranura de salida con bisel realista */
 .slot{
   width:min(460px,86%);
-  height:24px;                         /* ligeramente más alta */
+  height:24px;
   margin:10px auto 0;
   background:#0f0f0f;
   border-radius:0 0 12px 12px;
@@ -375,96 +201,150 @@ body.noscroll{overflow:hidden}
   pointer-events:none;
 }
 
-/* =========================
-   RESPONSIVE AJUSTES
-   ========================= */
-@media (max-width:600px){
-  .polaroid .cam-body::after{
-    right:16px; top:54px;
-    font-size:10px; letter-spacing:.12em;
-    opacity:.7;
-  }
-  .polaroid .vf::after{
-    right:-8px; top:4px; width:8px; height:8px;
-  }
-  .slot{
-    width:min(440px,92%);
-    height:22px;
-    margin-top:10px;
-  }
+/* Cuerpo con ligero “cepillado” y brillo superior */
+.polaroid .cam-body::before{
+  content:"";
+  position:absolute; inset:0;
+  border-radius:0 0 14px 14px;
+  pointer-events:none;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,.55), rgba(255,255,255,0) 40%),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.015) 0 1px, transparent 1px 4px);
+  mix-blend-mode:soft-light;
+  opacity:.6;
 }
 
+/* Lente con aro de brillo extra */
+.polaroid .lens::after{
+  content:"";
+  position:absolute; inset:-4px;
+  border-radius:50%;
+  background:
+    radial-gradient(60% 60% at 35% 30%, rgba(255,255,255,.18), transparent 55%),
+    radial-gradient(circle at 70% 75%, rgba(0,0,0,.35), transparent 50%);
+  pointer-events:none;
+}
+
+/* =========================
+   TIRA — estilo fotomatón
+   ========================= */
+.strip{
+  display:block;
+  width:min(760px,100%);
+  margin:0 auto;
+  background:#0a0a0a;
+  border-radius:14px;
+  padding:22px 0;
+  box-shadow:0 12px 40px rgba(0,0,0,.45);
+  opacity:0; visibility:hidden; height:0; overflow:hidden;
+  transition:opacity .4s ease, margin-top .45s ease;
+}
+.strip.is-docked{
+  visibility:visible; height:auto; opacity:1;
+  margin:var(--dock-gap) auto 0;
+}
+
+/* Cada “foto” */
+.frame{
+  background:#fff;
+  border:12px solid #fff;
+  border-radius:10px;
+  margin:14px 10px 18px;
+  box-shadow:0 6px 24px rgba(0,0,0,.12);
+}
+.content{
+  min-height:clamp(240px,68svh,760px);
+  padding:clamp(18px,4vw,34px);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  background:linear-gradient(135deg,#fafafa,#f0f0f0);
+}
+.num{font:600 12px/1 Arial,sans-serif;letter-spacing:.32em;color:var(--gold);margin-bottom:12px}
+.ttl{font-size:clamp(26px,4.2vw,40px);margin:0 0 6px}
+.amp{font:500 16px/1 Arial,sans-serif;color:#777;margin:6px 0 10px}
+.sub{font:400 15px/1.5 Arial,sans-serif;color:#666;max-width:38ch}
+.divider{width:64px;height:2px;background:var(--gold);margin:12px auto 10px}
+.label{font:700 11px/1 Arial,sans-serif;text-transform:uppercase;letter-spacing:.24em;color:var(--gold);margin:10px 0 6px}
+.detail{font:400 16px/1.5 Arial,sans-serif;color:#555}
+.footer{
+  text-align:center; color:#9a9a9a;
+  font:600 12px/1 Arial,sans-serif; letter-spacing:.22em;
+  margin-top:40px;
+}
+
+/* Cuenta atrás con números grandes y etiquetas alineadas */
+.cd2{ color: var(--gold); text-align:center; user-select:none; }
+.cd2 .grid{
+  display:grid; grid-auto-flow:column; grid-auto-columns:minmax(5ch,auto);
+  gap:1.1em; justify-content:center; align-items:end;
+}
+.cd2 .cell{ display:flex; flex-direction:column; align-items:center; }
+.cd2 .num{
+  font:800 clamp(24px,6vw,36px)/1 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  letter-spacing:.04em; min-width:2ch; text-align:center;
+}
+.cd2 .lbl{
+  margin-top:6px; font:700 10px/1 Arial,sans-serif; letter-spacing:.18em; opacity:.9; text-transform:uppercase;
+}
+.cd2 .cell + .cell{ position:relative; }
+.cd2 .cell + .cell::before{
+  content:":"; position:absolute; left:-0.55em; top:0; transform:translate(-50%,-10%);
+  font:800 clamp(20px,5vw,30px)/1 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  color:var(--gold); opacity:.9;
+}
 
 /* =========================
    CUENTA ATRÁS / FLASH
    ========================= */
 .countdown{
   position:fixed; inset:0; display:none; place-items:center;
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(2px);
-  z-index:1000;
+  background:rgba(0,0,0,.55); backdrop-filter:blur(2px); z-index:1000;
 }
 .countdown.visible{ display:grid; }
 .count{
   color:#fff; font-weight:700; letter-spacing:.06em;
   font-size:min(24vw,180px); line-height:1;
-  text-shadow:0 10px 40px rgba(0,0,0,.5);
-  animation:pop .8s ease forwards;
+  text-shadow:0 10px 40px rgba(0,0,0,.5); animation:pop .8s ease forwards;
 }
-@keyframes pop{
-  0%{ transform:scale(.6); opacity:.5 }
-  60%{ transform:scale(1.08); opacity:1 }
-  100%{ transform:scale(1); opacity:1 }
-}
+@keyframes pop{ 0%{transform:scale(.6);opacity:.5} 60%{transform:scale(1.08);opacity:1} 100%{transform:scale(1);opacity:1} }
 
-/* Flash */
-.flash{
-  position:fixed; inset:0; background:#fff; pointer-events:none;
-  opacity:0; z-index:1100;
-}
+.flash{ position:fixed; inset:0; background:#fff; pointer-events:none; opacity:0; z-index:1100; }
 .flash.play{ animation:flash var(--flash-ms) ease; }
-@keyframes flash{
-  0%{ opacity:0 }
-  25%{ opacity:1 }
-  100%{ opacity:0 }
+@keyframes flash{ 0%{opacity:0} 25%{opacity:1} 100%{opacity:0} }
+
+/* =========================
+   MARCA INFERIOR CENTRADA (override seguro)
+   ========================= */
+.polaroid .cam-body{ padding-bottom:78px; }
+.polaroid .cam-body::after{
+  content:"Instant Camera";
+  position:absolute;
+  top:auto !important; right:auto !important;
+  left:50% !important; bottom:16px !important;
+  transform:translateX(-50%);
+  z-index:1;
+  font:600 11px/1.1 Arial,sans-serif; letter-spacing:.14em;
+  color:#6a6a6a; opacity:.78; pointer-events:none;
 }
 
 /* Móvil */
 @media (max-width:600px){
-  :root{ 
-    --dock-gap:12px;
-    --btn-size:72px;        /* botón más pequeño en móvil */
-  }
+  :root{ --dock-gap:12px; --btn-size:72px; }
   .wrap{max-width:100%;padding:18px}
-  .polaroid .cam-body{padding:22px 16px 64px}
+  .polaroid .cam-body{ padding:22px 16px 84px }  /* más aire inferior */
   .polaroid .lens{ width:140px; height:140px; border-width:10px; }
-  .polaroid .vf::after{
-    left: calc(100% + 6px);
-    width:8px; height:8px;
-  }
-  .polaroid .cam-body::after{
-    bottom: 18px;                   /* sube 2px en móvil para evitar solapes */
-    font-size:10px;
-    letter-spacing:.12em;
-    opacity:.7;
-  }
-  /* si hiciera falta más aire inferior, sube un poco el padding del cuerpo */
-  .polaroid .cam-body{ padding-bottom: 72px; }  /* antes 64px */
   .rainbow .r{ width:24px; height:7px }
   .screen{ max-width:92%; }
-  .red-btn{ right:14px; top:14px; } /* posición consistente en móvil */
-  .hint-img{
-    right: -2px;
-    top: calc(14px + var(--btn-size) + 2px);
-    width: clamp(84px, 28vw, 120px);
-    animation: floatArrow 2.2s ease-in-out infinite;
-  }
-  .slot{ margin-top:10px }
+  .red-btn{ right:14px; top:14px; }
+  .hint-img{ right:14px; top: calc(14px + var(--btn-size) + 6px); width: clamp(84px, 28vw, 120px); animation: floatArrow 2.2s ease-in-out infinite; }
+  .slot{ width:min(440px,92%); height:22px; margin-top:10px }
   .frame{border-width:10px}
-  .content{
-    min-height:clamp(260px,50svh,480px);
-    padding:clamp(16px,5vw,24px);
-  }
+  .content{ min-height:clamp(260px,50svh,480px); padding:clamp(16px,5vw,24px); }
   .ttl{font-size:clamp(22px,6vw,30px);}
   .sub{font-size:clamp(14px,3.5vw,16px);}
+  /* LED: un poco más a la derecha en móvil */
+  .polaroid .vf{ width:60px; height:60px; left:14px; top:14px; }
+  .polaroid .vf::after{ left: calc(100% + 14px); width:8px; height:8px; }
+  /* Marca inferior */
+  .polaroid .cam-body::after{ bottom:18px !important; font-size:10px; letter-spacing:.12em; opacity:.75; }
 }
