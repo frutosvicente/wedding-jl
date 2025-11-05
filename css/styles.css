@@ -134,7 +134,7 @@ body.noscroll{overflow:hidden}
   box-shadow:0 10px 26px rgba(224,25,25,.45), inset 0 -6px 12px rgba(0,0,0,.35);
   transition:transform .15s ease;
   position:absolute;
-  right:18px; top:18px;
+  right:18px; top:16px;
   z-index:2;
 }
 .red-btn:hover{ transform:translateY(-2px) }
