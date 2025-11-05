@@ -149,7 +149,7 @@ body.noscroll{overflow:hidden}
 /* Indicador "Pulse aquí" (debajo del botón) */
 .hint-img{
   position: absolute;
-  right: 9px;
+  right: 2px;
   top: calc(14px + var(--btn-size) + 8px); /* justo debajo del botón */
   width: clamp(90px, 18vw, 140px);
   pointer-events: none;     /* no tapa el botón */
