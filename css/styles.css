@@ -126,13 +126,16 @@ body.noscroll{overflow:hidden}
 .t1{color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px;font-size:14px}
 .t2{color:#9a9a9a;font:500 12px/1.2 Arial,sans-serif}
 
-/* Botón de disparo */
+/* Botón de disparo en esquina superior derecha */
 .red-btn{
   width:86px; height:86px; border-radius:50%;
   background:radial-gradient(circle at 30% 30%,#ff5151,var(--btn));
   border:6px solid #1f1f1f; cursor:pointer;
   box-shadow:0 10px 26px rgba(224,25,25,.45), inset 0 -6px 12px rgba(0,0,0,.35);
-  transition:transform .15s ease; position:absolute; right:18px; top:18px; z-index:2;
+  transition:transform .15s ease;
+  position:absolute;
+  right:18px; top:18px;
+  z-index:2;
 }
 .red-btn:hover{ transform:translateY(-2px) }
 .red-btn:active{ transform:translateY(2px) }
