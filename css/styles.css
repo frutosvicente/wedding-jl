@@ -159,6 +159,12 @@ body.noscroll{overflow:hidden}
   animation: floatArrow 2.4s ease-in-out infinite;  /* 👈 animación suave */
 }
 
+.hint-img.fade-out {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
 /* Movimiento vertical leve y cíclico */
 @keyframes floatArrow {
   0%, 100% { transform: translateY(0); }
