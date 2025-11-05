@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   const pb   = document.getElementById('photobooth');
 
   let started=false;
+  let countdownStarted=false;
+  let countdownTimer=null;
+
+  // 26 Sep 2026 17:30 en Madrid (CEST, UTC+02)
+  const TARGET = new Date('2026-09-26T17:30:00+02:00');
 
   function msFromCssVar(name, fallbackMs){
     const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -20,13 +25,45 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   function playFlash(){
     flashEl.classList.remove('play');
-    void flashEl.offsetWidth;           // reinicia animación
+    void flashEl.offsetWidth;
     flashEl.classList.add('play');
+  }
+
+  function pad2(n){ return String(n).padStart(2,'0'); }
+
+  function fmtCountdown(ms){
+    if (ms <= 0) return '¡Es el gran día!';
+    const total = Math.floor(ms/1000);
+    const d = Math.floor(total / 86400);
+    const h = Math.floor((total % 86400) / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    const dia = (d===1 ? 'día' : 'días');
+    return `${d} ${dia} ${pad2(h)}:${pad2(m)}:${pad2(s)}`;
+  }
+
+  function startLiveCountdown(){
+    if (countdownStarted) return;
+    countdownStarted = true;
+
+    // Reutilizamos s2 para pintar la cuenta atrás en dorado
+    s1.style.display = 'none';
+    s2.className = 'cd';
+    s2.id = 'wcd';
+
+    const tick = () => {
+      const now = Date.now();
+      s2.textContent = fmtCountdown(TARGET.getTime() - now);
+    };
+    tick(); // primera pintura inmediata
+    countdownTimer = setInterval(tick, 1000);
   }
 
   function revealStrip(){
     // Mostrar tira acoplada, centrada
     strip.classList.add('is-docked');
+    // Al revelarse la tira, arrancamos la cuenta atrás
+    startLiveCountdown();
   }
 
   function startCountdown(){
@@ -50,7 +87,6 @@ document.addEventListener('DOMContentLoaded',()=>{
       }else{
         clearInterval(tick);
 
-        // Prepara flash
         overlay.classList.remove('visible');
         overlay.setAttribute('aria-hidden','true');
         playFlash();
@@ -61,14 +97,13 @@ document.addEventListener('DOMContentLoaded',()=>{
         // Revela la tira DURANTE el flash (debajo del overlay blanco)
         setTimeout(()=>{ revealStrip(); }, revealAt);
 
-        // Cuando termina el flash, liberamos scroll, actualizamos textos y centramos
+        // Al terminar el flash, liberamos scroll y desplazamos
         flashEl.addEventListener('animationend', ()=>{
           document.body.classList.remove('noscroll');
 
-          s1.textContent = '¡COMPLETADO!';
-          s2.textContent = 'Desliza para ver la invitación';
+          // Ya no mostramos "¡COMPLETADO!" para dejar solo la cuenta atrás
+          // (si prefieres mantener un título encima, dímelo y lo añadimos)
 
-          // Centrar viewport justo bajo el photobooth
           const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--dock-gap')) || 0;
           const y = pb.getBoundingClientRect().bottom + window.scrollY - gap;
           window.scrollTo({ top: y, behavior:'smooth' });
@@ -81,4 +116,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(started) return; started = true;
     startCountdown();
   });
+
+  // Limpieza si el usuario navega o recarga raro
+  window.addEventListener('beforeunload', ()=> { if (countdownTimer) clearInterval(countdownTimer); });
 });
