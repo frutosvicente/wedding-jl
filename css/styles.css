@@ -182,15 +182,16 @@ body.noscroll{overflow:hidden}
 }
 
 /* =========================
-   TIRA
+   TIRA — estilo fotomatón
    ========================= */
 .strip{
   display:block;
   width:min(760px,100%);
   margin:0 auto;
-  background:var(--frame);
-  border-radius:10px;
-  box-shadow:var(--shadow);
+  background:#0a0a0a;             /* Fondo negro brillante */
+  border-radius:14px;             /* bordes suaves, tipo marco de carrete */
+  padding:22px 0;                 /* espacio arriba y abajo para que “respiren” las fotos */
+  box-shadow:0 12px 40px rgba(0,0,0,.45);
   opacity:0;
   visibility:hidden;
   height:0;
@@ -203,6 +204,7 @@ body.noscroll{overflow:hidden}
   opacity:1;
   margin:var(--dock-gap) auto 0;
 }
+
 
 /* Cada “foto” */
 .frame{
