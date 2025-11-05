@@ -106,6 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startCountdown() {
+    const hint = document.querySelector('.hint-img');
+    if (hint) {
+      hint.classList.add('fade-out');
+    }
     document.body.classList.add('noscroll');
     overlay.classList.add('visible');
     overlay.setAttribute('aria-hidden', 'false');
