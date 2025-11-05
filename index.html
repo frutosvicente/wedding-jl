@@ -8,18 +8,44 @@
 </head>
 <body>
 <div class="wrap">
-  <section class="photobooth" id="photobooth">
-    <div class="screen">
-      <p class="t1" id="s1">LISTO PARA CAPTURAR</p>
-      <p class="t2" id="s2">Pulsa el botón para comenzar</p>
+
+  <!-- CÁMARA POLAROID -->
+  <section class="photobooth polaroid" id="photobooth">
+    <!-- Parte superior (tejadillo) -->
+    <div class="cam-top"></div>
+
+    <!-- Cuerpo principal -->
+    <div class="cam-body">
+      <!-- Visor -->
+      <div class="vf"></div>
+
+      <!-- Lente -->
+      <div class="lens-wrap">
+        <div class="lens">
+          <span class="glass"></span>
+        </div>
+      </div>
+
+      <!-- Franja arcoíris tipo Polaroid -->
+      <div class="rainbow">
+        <span class="r r1"></span><span class="r r2"></span><span class="r r3"></span><span class="r r4"></span><span class="r r5"></span>
+      </div>
+
+      <!-- “Pantallita”/badge de estado (reutilizamos s1/s2 para no tocar JS) -->
+      <div class="badge screen">
+        <p class="t1" id="s1">LISTO PARA CAPTURAR</p>
+        <p class="t2" id="s2">Pulsa el botón para comenzar</p>
+      </div>
+
+      <!-- Botón de disparo (mismo id que antes) -->
+      <button class="red-btn shutter" id="btn" aria-label="Disparar"></button>
     </div>
-    <div class="button-zone">
-      <button class="red-btn" id="btn" aria-label="Mostrar invitación"></button>
-    </div>
+
+    <!-- Ranura de salida (se mantiene para que la tira funcione igual) -->
     <div class="slot"></div>
   </section>
 
-  <!-- Tira -->
+  <!-- TIRA -->
   <div class="strip" id="strip">
     <article class="frame"><div class="content"><div class="num">01</div><h2 class="ttl">Lidia</h2><div class="amp">&amp;</div><h2 class="ttl">Jorge</h2><div class="divider"></div><p class="sub">26·09·2026</p></div></article>
     <article class="frame"><div class="content"><div class="num">02</div><h3 class="ttl">Nuestra historia</h3><div class="divider"></div><p class="sub">Dos corazones, un camino. Desde que nos conocimos supimos que la historia acababa de empezar. Ahora queremos compartir el siguiente capítulo con vosotros.</p></div></article>
