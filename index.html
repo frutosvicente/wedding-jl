@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Invitación de boda · Photobooth</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="wrap">
+  <section class="photobooth" id="photobooth">
+    <div class="screen">
+      <p class="t1" id="s1">LISTO PARA CAPTURAR</p>
+      <p class="t2" id="s2">Pulsa el botón para comenzar</p>
+    </div>
+    <div class="button-zone">
+      <button class="red-btn" id="btn" aria-label="Mostrar invitación"></button>
+    </div>
+    <div class="slot"></div>
+  </section>
+
+  <!-- Tira -->
+  <div class="strip" id="strip">
+    <article class="frame"><div class="content"><div class="num">01</div><h2 class="ttl">Lidia</h2><div class="amp">&amp;</div><h2 class="ttl">Jorge</h2><div class="divider"></div><p class="sub">26·09·2026</p></div></article>
+    <article class="frame"><div class="content"><div class="num">02</div><h3 class="ttl">Nuestra historia</h3><div class="divider"></div><p class="sub">Dos corazones, un camino. Desde que nos conocimos supimos que la historia acababa de empezar. Ahora queremos compartir el siguiente capítulo con vosotros.</p></div></article>
+    <article class="frame"><div class="content"><div class="num">03</div><h3 class="ttl">Detalles</h3><div class="divider"></div><div class="label">Ceremonia</div><div class="detail">17:00 · —</div><div class="label">Cena</div><div class="detail">20:00 · —</div><div class="label">Fiesta</div><div class="detail">23:30 · —</div></div></article>
+    <article class="frame"><div class="content"><div class="num">04</div><h3 class="ttl">Confirmación</h3><div class="divider"></div><p class="sub">Confirma tu asistencia antes del 26/08/2026<br><br>Contacto: wedding@frutosmorin.com<br>+34 600 000 000</p></div></article>
+  </div>
+
+  <p class="footer">Jorge & Lidia — 26·09·2026</p>
+</div>
+
+<!-- Overlay cuenta atrás y flash -->
+<div class="countdown" id="countdown" aria-hidden="true">
+  <div class="count" id="countnum">3</div>
+</div>
+<div class="flash" id="flash"></div>
+
+<script defer src="js/main.js"></script>
+</body>
+</html>
