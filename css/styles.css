@@ -317,10 +317,12 @@ body.noscroll{overflow:hidden}
 .polaroid .cam-body::after{
   content:"Instant Camera";
   position:absolute;
-  right:22px; top:66px;          /* cerca del botón, bajo el borde superior */
+  left:50%;
+  bottom:14px;                   /* en la parte inferior */
+  transform:translateX(-50%);
   font:600 11px/1.1 Arial, sans-serif;
   letter-spacing:.14em;
-  color:#666;
+  color:#6a6a6a;
   opacity:.75;
   pointer-events:none;
 }
@@ -340,7 +342,8 @@ body.noscroll{overflow:hidden}
 .polaroid .vf::after{
   content:"";
   position:absolute;
-  right:-10px; top:6px;          /* pegado al marco del visor */
+  right:-16px;   /* antes -10px → más a la derecha */
+  top:8px;       /* un pelín más centrado verticalmente */
   width:10px; height:10px; border-radius:50%;
   background:radial-gradient(circle at 30% 30%, #bbffcc, #2ecc71 60%, #1e8f4d);
   box-shadow:
@@ -434,6 +437,17 @@ body.noscroll{overflow:hidden}
   .wrap{max-width:100%;padding:18px}
   .polaroid .cam-body{padding:22px 16px 64px}
   .polaroid .lens{ width:140px; height:140px; border-width:10px; }
+  .polaroid .vf::after{
+    right:-14px;
+    top:6px;
+    width:8px; height:8px;
+  }
+  .polaroid .cam-body::after{
+    bottom:12px;
+    font-size:10px;
+    letter-spacing:.12em;
+    opacity:.7;
+  }
   .rainbow .r{ width:24px; height:7px }
   .screen{ max-width:92%; }
   .red-btn{ right:14px; top:14px; } /* posición consistente en móvil */
