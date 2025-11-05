@@ -318,7 +318,7 @@ body.noscroll{overflow:hidden}
   content:"Instant Camera";
   position:absolute;
   left:50%;
-  bottom:14px;                   /* en la parte inferior */
+  bottom: 16px;                     /* un poco más alto para móvil con notch/barras */
   transform:translateX(-50%);
   font:600 11px/1.1 Arial, sans-serif;
   letter-spacing:.14em;
@@ -342,8 +342,9 @@ body.noscroll{overflow:hidden}
 .polaroid .vf::after{
   content:"";
   position:absolute;
-  right:-16px;   /* antes -10px → más a la derecha */
-  top:8px;       /* un pelín más centrado verticalmente */
+  left: calc(100% + 8px);      /* siempre a la derecha del visor */
+  top: 50%;
+  transform: translateY(-50%); /* centrado vertical relativo */
   width:10px; height:10px; border-radius:50%;
   background:radial-gradient(circle at 30% 30%, #bbffcc, #2ecc71 60%, #1e8f4d);
   box-shadow:
@@ -438,16 +439,17 @@ body.noscroll{overflow:hidden}
   .polaroid .cam-body{padding:22px 16px 64px}
   .polaroid .lens{ width:140px; height:140px; border-width:10px; }
   .polaroid .vf::after{
-    right:-14px;
-    top:6px;
+    left: calc(100% + 6px);
     width:8px; height:8px;
   }
   .polaroid .cam-body::after{
-    bottom:12px;
+    bottom: 18px;                   /* sube 2px en móvil para evitar solapes */
     font-size:10px;
     letter-spacing:.12em;
     opacity:.7;
   }
+  /* si hiciera falta más aire inferior, sube un poco el padding del cuerpo */
+  .polaroid .cam-body{ padding-bottom: 72px; }  /* antes 64px */
   .rainbow .r{ width:24px; height:7px }
   .screen{ max-width:92%; }
   .red-btn{ right:14px; top:14px; } /* posición consistente en móvil */
