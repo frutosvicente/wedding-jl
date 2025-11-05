@@ -13,6 +13,9 @@
   --lens-core:#0f0f0f;
   --lens-gloss:rgba(255,255,255,.25);
 
+  /* Tamaño botón (varía en móvil) */
+  --btn-size: 86px;
+
   /* Duración del flash */
   --flash-ms: 2000ms; /* ajustable */
 }
@@ -128,7 +131,9 @@ body.noscroll{overflow:hidden}
 
 /* Botón de disparo en esquina superior derecha */
 .red-btn{
-  width:86px; height:86px; border-radius:50%;
+  width: var(--btn-size);
+  height: var(--btn-size);
+  border-radius:50%;
   background:radial-gradient(circle at 30% 30%,#ff5151,var(--btn));
   border:6px solid #1f1f1f; cursor:pointer;
   box-shadow:0 10px 26px rgba(224,25,25,.45), inset 0 -6px 12px rgba(0,0,0,.35);
@@ -140,6 +145,18 @@ body.noscroll{overflow:hidden}
 .red-btn:hover{ transform:translateY(-2px) }
 .red-btn:active{ transform:translateY(2px) }
 .shutter{ /* por semántica, nada extra */ }
+
+/* Indicador "Pulse aquí" (debajo del botón) */
+.hint-img{
+  position: absolute;
+  right: 18px;
+  top: calc(14px + var(--btn-size) + 8px); /* justo debajo del botón */
+  width: clamp(90px, 18vw, 140px);
+  pointer-events: none;     /* no tapa el botón */
+  opacity: .9;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
+  user-select: none;
+}
 
 /* Ranura de salida (como tenías) */
 .slot{
@@ -297,13 +314,17 @@ body.noscroll{overflow:hidden}
 
 /* Móvil */
 @media (max-width:600px){
-  :root{ --dock-gap:12px; }
+  :root{ 
+    --dock-gap:12px;
+    --btn-size:72px;        /* botón más pequeño en móvil */
+  }
   .wrap{max-width:100%;padding:18px}
   .polaroid .cam-body{padding:22px 16px 64px}
   .polaroid .lens{ width:140px; height:140px; border-width:10px; }
   .rainbow .r{ width:24px; height:7px }
   .screen{ max-width:92%; }
-  .red-btn{ width:72px; height:72px; right:14px; bottom:14px; }
+  .red-btn{ right:14px; top:14px; } /* posición consistente en móvil */
+  .hint-img{ right:14px; top: calc(14px + var(--btn-size) + 6px); width: clamp(84px, 28vw, 120px); }
   .slot{ margin-top:10px }
   .frame{border-width:10px}
   .content{
