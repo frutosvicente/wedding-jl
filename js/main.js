@@ -10,28 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let started = false;
 
-  // --- Cuenta atrás usando zona horaria de Madrid ---
-  // 26 septiembre 2026 17:30 hora local de Madrid
-  function getTargetInMadrid() {
-    const fmt = new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Europe/Madrid",
-      year: "numeric", month: "2-digit", day: "2-digit",
-      hour: "2-digit", minute: "2-digit", second: "2-digit",
-      hour12: false
-    });
-    const parts = fmt.formatToParts(new Date("2026-09-26T15:30:00Z"));
-    // Creamos un Date equivalente a "2026-09-26 17:30:00 Europe/Madrid"
-    return new Date(Date.UTC(
-      2026, 8, 26, 17 - (new Date().getTimezoneOffset() / 60), 30, 0
-    ));
-  }
-  const TARGET_TZ = "Europe/Madrid";
-  const targetDate = new Date("2026-09-26T17:30:00");
-  const TARGET = new Date(
-    new Date(
-      targetDate.toLocaleString("en-US", { timeZone: TARGET_TZ })
-    )
-  );
+  // === Objetivo fijo en CET (UTC+1) ===
+  // 26 Sep 2026 17:30 CET  =>  16:30:00Z
+  const TARGET = new Date('2026-09-26T16:30:00Z');
 
   let countdownStarted = false;
   let countdownTimer = null;
@@ -46,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function playFlash() {
     flashEl.classList.remove('play');
-    void flashEl.offsetWidth;
+    void flashEl.offsetWidth; // reinicia animación
     flashEl.classList.add('play');
   }
 
@@ -66,11 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (countdownStarted) return;
     countdownStarted = true;
 
+    // Ocultamos el título y usamos s2 como contenedor del contador
     s1.style.display = 'none';
     s2.className = 'cd2';
     s2.id = 'wcd';
     s2.setAttribute('aria-live', 'polite');
 
+    // Plantilla con 4 columnas; cada una tiene número y etiqueta debajo
     s2.innerHTML = `
       <div class="grid" aria-hidden="true">
         <div class="cell">
@@ -98,27 +81,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const sEl = document.getElementById('cd-s');
 
     const tick = () => {
-      const now = new Date();
-      // Convertimos ahora al mismo huso horario (Madrid)
-      const nowLocal = new Date(now.toLocaleString("en-US", { timeZone: TARGET_TZ }));
-      const diff = targetDate - nowLocal;
+      const nowMs = Date.now();                 // ms en UTC
+      const left  = TARGET.getTime() - nowMs;   // diferencia contra 16:30Z (CET)
+      const t = splitTime(left);
 
-      const t = splitTime(diff);
+      // Días con 3 dígitos para mantener anchura estable
       dEl.textContent = t.d.toString().padStart(3, '0');
       hEl.textContent = pad2(t.h);
       mEl.textContent = pad2(t.m);
       sEl.textContent = pad2(t.s);
 
-      if (t.done) clearInterval(countdownTimer);
+      if (t.done) {
+        clearInterval(countdownTimer);
+      }
     };
 
-    tick();
+    tick(); // primera pintura inmediata
     countdownTimer = setInterval(tick, 1000);
   }
 
   function revealStrip() {
     strip.classList.add('is-docked');
-    startLiveCountdown();
+    startLiveCountdown(); // arrancamos el contador cuando aparece la tira
   }
 
   function startCountdown() {
@@ -142,15 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         clearInterval(tick);
 
+        // Ocultamos overlay y lanzamos flash
         overlay.classList.remove('visible');
         overlay.setAttribute('aria-hidden', 'true');
         playFlash();
 
         const flashMs = msFromCssVar('--flash-ms', 2000);
-        const revealAt = Math.max(0, Math.floor(flashMs * 0.6));
+        const revealAt = Math.max(0, Math.floor(flashMs * 0.6)); // 60% del flash
 
+        // Revela la tira DURANTE el flash (debajo del blanco)
         setTimeout(() => { revealStrip(); }, revealAt);
 
+        // Al terminar el flash, desbloquea scroll y desplaza vista
         flashEl.addEventListener('animationend', () => {
           document.body.classList.remove('noscroll');
 
@@ -168,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startCountdown();
   });
 
+  // Limpieza por si el usuario navega o recarga
   window.addEventListener('beforeunload', () => {
     if (countdownTimer) clearInterval(countdownTimer);
   });
