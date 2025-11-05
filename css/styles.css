@@ -132,7 +132,7 @@ body.noscroll{overflow:hidden}
   background:radial-gradient(circle at 30% 30%,#ff5151,var(--btn));
   border:6px solid #1f1f1f; cursor:pointer;
   box-shadow:0 10px 26px rgba(224,25,25,.45), inset 0 -6px 12px rgba(0,0,0,.35);
-  transition:transform .15s ease; position:absolute; right:18px; bottom:18px; z-index:2;
+  transition:transform .15s ease; position:absolute; right:18px; top:18px; z-index:2;
 }
 .red-btn:hover{ transform:translateY(-2px) }
 .red-btn:active{ transform:translateY(2px) }
