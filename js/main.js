@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const countEl  = document.getElementById('countnum');
   const flashEl  = document.getElementById('flash');
   const pb       = document.getElementById('photobooth');
+  const snap = document.getElementById('snap');
 
   let started = false;
 
@@ -133,6 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ocultamos overlay y lanzamos flash
         overlay.classList.remove('visible');
         overlay.setAttribute('aria-hidden', 'true');
+        // Sonido Polaroid sincronizado con el flash
+        try {
+          if (snap) { snap.currentTime = 0; snap.volume = 1; snap.play().catch(()=>{}); }
+        } catch {}
+
         playFlash();
 
         const flashMs = msFromCssVar('--flash-ms', 2000);
@@ -156,6 +162,20 @@ document.addEventListener('DOMContentLoaded', () => {
   btn.addEventListener('click', () => {
     if (started) return;
     started = true;
+    
+    // Desbloquear audio en el primer gesto del usuario (iOS/Safari/Android)
+    try {
+      if (snap) {
+        snap.volume = 0;        // silencio
+        snap.currentTime = 0;
+        const p = snap.play();  // intenta reproducir
+        if (p && p.catch) p.catch(()=>{}); // ignora si falla
+        setTimeout(()=>{
+          try { snap.pause(); snap.currentTime = 0; snap.volume = 1; } catch {}
+        }, 20); // vuelve a posición 0 y restaura volumen
+      }
+    } catch {}
+
     startCountdown();
   });
 
