@@ -215,6 +215,35 @@ body.noscroll{overflow:hidden}
   text-transform: none;
 }
 
+/* Cuenta atrás con etiquetas */
+.cd2{
+  color: var(--gold);
+  text-align: center;
+  user-select: none;
+}
+.cd2 .row{
+  font: 700 clamp(16px,2.6vw,22px)/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  letter-spacing: .06em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: .35em;
+}
+.cd2 .num{ min-width: 2ch; display: inline-block; text-align: right; }
+.cd2 .colon{ opacity: .9 }
+.cd2 .labels{
+  margin-top: 6px;
+  font: 700 10px/1 Arial, sans-serif;
+  letter-spacing: .18em;
+  opacity: .9;
+  display: grid;
+  grid-auto-flow: column;
+  gap: .35em;
+  justify-content: center;
+  text-transform: uppercase;
+}
+.cd2 .lbl{ min-width: 2ch; text-align: center; }
+
+
 /* =========================
    CUENTA ATRÁS / FLASH
    ========================= */
