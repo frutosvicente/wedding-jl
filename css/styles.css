@@ -294,6 +294,104 @@ body.noscroll{overflow:hidden}
 }
 
 /* =========================
+   REALISMO EXTRA POLAROID
+   (sin tocar HTML)
+   ========================= */
+
+/* 1) Cuerpo con relieve/cepillado suave */
+.polaroid .cam-body::before{
+  content:"";
+  position:absolute; inset:0;
+  border-radius:0 0 14px 14px;
+  pointer-events:none;
+  /* brillo superior + “cepillado” horizontal muy sutil */
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,.55), rgba(255,255,255,0) 40%),
+    repeating-linear-gradient(90deg,
+      rgba(0,0,0,.015) 0 1px, transparent 1px 4px);
+  mix-blend-mode:soft-light;
+  opacity:.6;
+}
+
+/* 2) Pequeña marca discreta en el frontal */
+.polaroid .cam-body::after{
+  content:"Instant Camera";
+  position:absolute;
+  right:22px; top:66px;          /* cerca del botón, bajo el borde superior */
+  font:600 11px/1.1 Arial, sans-serif;
+  letter-spacing:.14em;
+  color:#666;
+  opacity:.75;
+  pointer-events:none;
+}
+
+/* 3) Lente con aro de brillo especular extra */
+.polaroid .lens::after{
+  content:"";
+  position:absolute; inset:-4px;
+  border-radius:50%;
+  background:
+    radial-gradient(60% 60% at 35% 30%, rgba(255,255,255,.18), transparent 55%),
+    radial-gradient(circle at 70% 75%, rgba(0,0,0,.35), transparent 50%);
+  pointer-events:none;
+}
+
+/* 4) LED verde junto al visor (no ocupa HTML extra) */
+.polaroid .vf::after{
+  content:"";
+  position:absolute;
+  right:-10px; top:6px;          /* pegado al marco del visor */
+  width:10px; height:10px; border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #bbffcc, #2ecc71 60%, #1e8f4d);
+  box-shadow:
+    0 0 2px rgba(0,0,0,.4),
+    0 0 10px rgba(46,204,113,.6),
+    0 0 18px rgba(46,204,113,.35);
+}
+
+/* 5) Ranura con bisel/plástico y sombra interior más real */
+.slot{
+  width:min(460px,86%);
+  height:24px;                         /* ligeramente más alta */
+  margin:10px auto 0;
+  background:#0f0f0f;
+  border-radius:0 0 12px 12px;
+  box-shadow:
+    inset 0 6px 10px rgba(255,255,255,.06),
+    inset 0 -6px 10px rgba(0,0,0,.65),
+    0 10px 24px rgba(0,0,0,.18);
+  position:relative;
+}
+.slot::before{
+  content:"";
+  position:absolute; left:10%; right:10%; top:2px; height:6px;
+  border-radius:4px;
+  background:linear-gradient(to bottom, rgba(255,255,255,.18), rgba(255,255,255,0));
+  opacity:.45;
+  pointer-events:none;
+}
+
+/* =========================
+   RESPONSIVE AJUSTES
+   ========================= */
+@media (max-width:600px){
+  .polaroid .cam-body::after{
+    right:16px; top:54px;
+    font-size:10px; letter-spacing:.12em;
+    opacity:.7;
+  }
+  .polaroid .vf::after{
+    right:-8px; top:4px; width:8px; height:8px;
+  }
+  .slot{
+    width:min(440px,92%);
+    height:22px;
+    margin-top:10px;
+  }
+}
+
+
+/* =========================
    CUENTA ATRÁS / FLASH
    ========================= */
 .countdown{
