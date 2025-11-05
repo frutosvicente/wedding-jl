@@ -318,7 +318,7 @@ body.noscroll{overflow:hidden}
   content:"Instant Camera";
   position:absolute;
   left:50%;
-  bottom: 16px;                     /* un poco más alto para móvil con notch/barras */
+  bottom: 10px;                     /* un poco más alto para móvil con notch/barras */
   transform:translateX(-50%);
   font:600 11px/1.1 Arial, sans-serif;
   letter-spacing:.14em;
