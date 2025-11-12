@@ -414,6 +414,113 @@ body.noscroll{overflow:hidden}
     radial-gradient(circle at 70% 78%, rgba(0,0,0,.30), transparent 55%);
 }
 
+/* =========================
+   TIMELINE CARRUSEL (Detalles)
+   ========================= */
+.content--timeline{
+  padding: clamp(12px, 3vw, 18px);
+  background: #000; /* marco más cine para el panorámico */
+}
+
+.timeline{
+  --tl-img: url('img/timeline-wide.jpg'); /* se puede sobreescribir inline */
+  position: relative;
+  width: 100%;
+}
+
+.timeline .viewport{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;              /* ajusta si tu panorámica es más horizontal (p.ej., 3/1) */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,.28);
+  background: #111;
+}
+
+.timeline .track{
+  display: grid;
+  grid-template-columns: repeat(4, 100%);
+  width: 100%;
+  height: 100%;
+  transition: transform .6s ease;    /* deslizamiento */
+  will-change: transform;
+}
+
+.timeline .slide{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-image: var(--tl-img);
+  background-repeat: no-repeat;
+  background-size: 400% 100%;        /* 4 tramos iguales */
+  background-position: var(--pos) 50%;
+}
+
+/* Botones prev/next */
+.timeline .tl-btn{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 40px; height: 40px;
+  border: none; border-radius: 999px;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+  font-size: 22px; line-height: 40px;
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: background .2s ease, transform .15s ease;
+}
+.timeline .tl-btn:hover{ background: rgba(0,0,0,.7); transform: translateY(-50%) scale(1.04); }
+.timeline .tl-btn:active{ transform: translateY(-50%) scale(.98); }
+.timeline .prev{ left: 10px; }
+.timeline .next{ right: 10px; }
+
+/* Dots */
+.timeline .dots{
+  display: flex; gap: 8px; justify-content: center; align-items: center;
+  margin-top: 10px;
+}
+.timeline .dot{
+  width: 8px; height: 8px; border-radius: 999px;
+  background: #bbb;
+  opacity: .7;
+  cursor: pointer;
+  transition: transform .15s ease, opacity .15s ease, background .15s ease;
+}
+.timeline .dot[aria-selected="true"]{
+  background: var(--gold);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Caption inferior */
+.timeline .tl-caption{
+  margin-top: 10px;
+  display: flex; gap: 10px; justify-content: center; align-items: baseline;
+  color: #eaeaea;
+  font: 500 14px/1.2 Arial, sans-serif;
+}
+.timeline .tl-caption .label{
+  color: var(--gold);
+  font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+.timeline .tl-caption .time{
+  opacity: .9;
+}
+
+/* Gestos: mostrar “manita” al poder arrastrar (sólo visual) */
+.timeline .viewport{ cursor: grab; }
+.timeline .viewport:active{ cursor: grabbing; }
+
+/* Móvil: más alto para respirar si la imagen es muy panorámica */
+@media (max-width: 600px){
+  .timeline .viewport{ aspect-ratio: 4 / 3; }
+  .timeline .tl-btn{ width: 36px; height: 36px; font-size: 20px; }
+}
+
+
 /* ligero “sweep” de brillo al pasar el ratón (no afecta móvil) */
 @media (hover:hover){
   .polaroid .lens:hover::before{
