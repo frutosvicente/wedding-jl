@@ -73,28 +73,25 @@
     <article class="frame"><div class="content"><div class="num">01</div><h2 class="ttl">Lidia</h2><div class="amp">&amp;</div><h2 class="ttl">Jorge</h2><div class="divider"></div><p class="sub">26·09·2026</p></div></article>
     <article class="frame"><div class="content"><div class="num">02</div><h3 class="ttl">Nuestra historia</h3><div class="divider"></div><p class="sub">Dos corazones, un camino. Desde que nos conocimos supimos que la historia acababa de empezar. Ahora queremos compartir el siguiente capítulo con vosotros.</p></div></article>
     <div class="content content--timeline">
-    <div class="timeline" id="timeline" style="--tl-img: url('img/timeline-wide.jpg');">
-      <button class="tl-btn prev" aria-label="Anterior">‹</button>
-      <div class="viewport" aria-roledescription="carousel" aria-label="Timeline del día">
-        <div class="track">
-          <!-- Cada slide muestra un cuarto de la misma imagen panorámica -->
-          <div class="slide" data-label="Preparativos" data-time="12:00"   style="--pos: 0%;"></div>
-          <div class="slide" data-label="Ceremonia"    data-time="17:00"   style="--pos: 33.3333%;"></div>
-          <div class="slide" data-label="Cóctel"       data-time="20:00"   style="--pos: 66.6667%;"></div>
-          <div class="slide" data-label="Fiesta"       data-time="23:30"   style="--pos: 100%;"></div>
+      <div class="timeline timeline--minimal" id="timeline" style="--tl-img: url('img/timeline-wide.jpg');">
+        <button class="tl-btn prev" aria-label="Anterior">‹</button>
+
+        <div class="viewport" aria-roledescription="carousel" aria-label="Timeline del día">
+            <div class="track">
+            <div class="slide" style="--pos: 0%;"></div>
+            <div class="slide" style="--pos: 33.3333%;"></div>
+            <div class="slide" style="--pos: 66.6667%;"></div>
+            <div class="slide" style="--pos: 100%;"></div>
         </div>
       </div>
+
       <button class="tl-btn next" aria-label="Siguiente">›</button>
-      <!-- Dots: se generan/actualizan desde JS -->
-      <div class="dots" role="tablist" aria-label="Pases del timeline"></div>
-      <!-- Pie con etiqueta/hora del tramo activo -->
-      <div class="tl-caption" aria-live="polite">
-        <span class="label" id="tl-label">Ceremonia</span>
-        <span class="time"  id="tl-time">17:00</span>
+
+        <!-- Se mantienen para compatibilidad, pero ocultos vía CSS -->
+        <div class="dots"></div>
+        <div class="tl-caption"></div>
       </div>
     </div>
-  </div>
-
     <article class="frame"><div class="content"><div class="num">04</div><h3 class="ttl">Confirmación</h3><div class="divider"></div><p class="sub">Confirma tu asistencia antes del 26/08/2026<br><br>Contacto: wedding@frutosmorin.com<br>+34 600 000 000</p></div></article>
   </div>
 
