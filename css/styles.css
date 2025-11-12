@@ -592,41 +592,39 @@ body.noscroll{overflow:hidden}
    OVERRIDE FINAL TIMELINE
    ========================= */
 
-/* Contenedor del frame */
 .content--timeline{
-  padding: 0;
-  background: #000;
+  /* anulamos lo heredado de .content y lo adaptamos */
+  min-height: auto;
+  padding: clamp(18px, 4vw, 34px);
+  background: linear-gradient(135deg,#fafafa,#f0f0f0); /* igual que el resto de frames */
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
 }
 
-/* Timeline dentro del frame */
+/* el <div class="timeline"> se estira dentro del frame */
 .content--timeline .timeline{
   position: relative;
-  flex: 1;
-  /* sin height:100% */
+  width: 100%;
 }
 
-/* Viewport: altura REAL (no porcentaje) */
+/* viewport: tarjeta blanca dentro del frame */
 .content--timeline .timeline .viewport{
   position: relative;
   width: 100%;
   border-radius: 12px;
   overflow: hidden;
-  background: #fff;
+  background: #fff;  /* antes #000 */
   box-shadow: 0 10px 30px rgba(0,0,0,.25);
   cursor: grab;
-
-  /* aquí está la magia: altura fija/responsive */
-  height: clamp(240px, 55svh, 420px);
+  height: clamp(240px, 55svh, 420px); /* puedes subir o bajar estos valores */
 }
 
 .content--timeline .timeline .viewport:active{
   cursor: grabbing;
 }
 
-/* Pista del carrusel */
+/* track ocupa todo el alto del viewport */
 .content--timeline .timeline .track{
   display: flex;
   width: 100%;
@@ -635,15 +633,12 @@ body.noscroll{overflow:hidden}
   will-change: transform;
 }
 
-/* Diapositivas: 1/4 del panorama */
+/* cada slide = 1/4 del panorama */
 .content--timeline .timeline .slide{
   flex: 0 0 100%;
   height: 100%;
   background-image: url('../img/timeline-wide.jpg');
   background-repeat: no-repeat;
-
-  background-size: 400% 130%;
+  background-size: 400% 130%;      /* ajusta 120–150% según el recorte que quieras */
   background-position: var(--pos) 50%;
 }
-
-
