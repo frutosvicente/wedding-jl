@@ -417,12 +417,15 @@ body.noscroll{overflow:hidden}
 /* =========================
    TIMELINE CARRUSEL — solo imagen + flechas
    ========================= */
+/* Frame del timeline: mismo alto que las otras fotos, pero sin padding interno */
 .content--timeline{
+  padding:0;
   background:#000;
   display:flex;
   align-items:stretch;
   justify-content:center;
 }
+
 
 .content--timeline .timeline{
   flex:1;
@@ -452,7 +455,7 @@ body.noscroll{overflow:hidden}
 }
 
 .timeline .slide{
-  background-size: 400% auto;
+  background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: var(--pos) center;
   width: 100%;
@@ -505,8 +508,11 @@ body.noscroll{overflow:hidden}
 
 /* Móvil: más alto para respirar si la imagen es muy panorámica */
 @media (max-width: 600px){
-  .timeline .viewport{ aspect-ratio: 4 / 3; }
-  .timeline .tl-btn{ width: 36px; height: 36px; font-size: 20px; }
+  .timeline .tl-btn{
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
 }
 
 
