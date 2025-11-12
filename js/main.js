@@ -235,9 +235,14 @@ document.addEventListener('DOMContentLoaded', () => {
     nextBtn?.addEventListener('click', () => go(i + 1));
 
     // Gestos (drag / swipe)
+    // Gestos (drag / swipe con snap suave)
     let x0 = null, t0 = 0, dragging = false;
-    const THRESH = 40; // px
-    const SPEED  = 0.35; // px/ms
+    
+    // distancia mínima en px para cambiar de slide
+    const THRESH = 30;   // antes 40, un poco más sensible
+    // velocidad mínima para considerar "flick" rápido
+    const SPEED  = 0.25; // antes 0.35
+
 
     function onDown(e){
       dragging = true;
@@ -248,10 +253,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!dragging || x0 == null) return;
       const x = (e.touches ? e.touches[0].clientX : e.clientX);
       const dx = x - x0;
-      // efecto arrastre sutil (opcional)
+    
+      // si estamos arrastrando lo suficiente, evitamos el scroll de la página
+      if (Math.abs(dx) > 5 && e.cancelable) {
+        e.preventDefault();
+      }
+    
+      // efecto arrastre
       track.style.transition = 'none';
       track.style.transform = `translateX(calc(-${i*100}% + ${dx}px))`;
     }
+
     function onUp(e){
       if (!dragging) return;
       dragging = false;
@@ -272,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onUp);
     vp.addEventListener('touchstart', onDown, {passive:true});
-    vp.addEventListener('touchmove',  onMove, {passive:true});
+    vp.addEventListener('touchmove',  onMove, {passive:false});
     vp.addEventListener('touchend',   onUp);
 
     // Teclado (cuando el foco esté en botones o dots)
