@@ -505,10 +505,8 @@ body.noscroll{overflow:hidden}
 /* Móvil: más alto para respirar si la imagen es muy panorámica */
 @media (max-width: 600px){
   .timeline .tl-btn{
-    width: 26px;
-    height: 26px;
-    font-size: 13px;
-    line-height: 26px;
+    opacity: .55;
+    backdrop-filter: blur(2px);
   }
 }
 
