@@ -179,6 +179,113 @@ document.addEventListener('DOMContentLoaded', () => {
     startCountdown();
   });
 
+    // ====== TIMELINE CARRUSEL (Detalles) ======
+  (function setupTimelineCarousel(){
+    const root = document.getElementById('timeline');
+    if (!root) return;
+
+    const track   = root.querySelector('.track');
+    const slides  = Array.from(root.querySelectorAll('.slide'));
+    const vp      = root.querySelector('.viewport');
+    const prevBtn = root.querySelector('.prev');
+    const nextBtn = root.querySelector('.next');
+    const dotsBox = root.querySelector('.dots');
+    const labEl   = root.querySelector('#tl-label');
+    const timeEl  = root.querySelector('#tl-time');
+
+    let i = 0;             // índice activo
+    const n = slides.length;
+
+    // Crear dots accesibles
+    slides.forEach((_, idx) => {
+      const b = document.createElement('button');
+      b.className = 'dot';
+      b.type = 'button';
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-label', `Ir al tramo ${idx+1}`);
+      b.addEventListener('click', () => go(idx));
+      dotsBox.appendChild(b);
+    });
+
+    function updateCaption(){
+      const s = slides[i];
+      if (s){
+        const label = s.dataset.label || '';
+        const time  = s.dataset.time  || '';
+        if (labEl)  labEl.textContent  = label;
+        if (timeEl) timeEl.textContent = time;
+      }
+    }
+
+    function updateDots(){
+      const dots = Array.from(dotsBox.children);
+      dots.forEach((d, idx) => d.setAttribute('aria-selected', idx === i ? 'true' : 'false'));
+    }
+
+    function go(next){
+      i = (next + n) % n;
+      // desliza el carril (cada slide ocupa 100% del viewport)
+      track.style.transform = `translateX(-${i * 100}%)`;
+      updateDots();
+      updateCaption();
+    }
+
+    // Controles
+    prevBtn?.addEventListener('click', () => go(i - 1));
+    nextBtn?.addEventListener('click', () => go(i + 1));
+
+    // Gestos (drag / swipe)
+    let x0 = null, t0 = 0, dragging = false;
+    const THRESH = 40; // px
+    const SPEED  = 0.35; // px/ms
+
+    function onDown(e){
+      dragging = true;
+      x0 = (e.touches ? e.touches[0].clientX : e.clientX);
+      t0 = Date.now();
+    }
+    function onMove(e){
+      if (!dragging || x0 == null) return;
+      const x = (e.touches ? e.touches[0].clientX : e.clientX);
+      const dx = x - x0;
+      // efecto arrastre sutil (opcional)
+      track.style.transition = 'none';
+      track.style.transform = `translateX(calc(-${i*100}% + ${dx}px))`;
+    }
+    function onUp(e){
+      if (!dragging) return;
+      dragging = false;
+      const x = (e.changedTouches ? e.changedTouches[0].clientX : e.clientX);
+      const dx = x - x0;
+      const dt = Math.max(1, Date.now() - t0);
+      track.style.transition = ''; // restablece
+      const fast = Math.abs(dx/dt) > SPEED;
+      if (Math.abs(dx) > THRESH || fast){
+        if (dx < 0) go(i + 1); else go(i - 1);
+      } else {
+        go(i); // volver al índice actual
+      }
+      x0 = null;
+    }
+
+    vp.addEventListener('mousedown', onDown);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    vp.addEventListener('touchstart', onDown, {passive:true});
+    vp.addEventListener('touchmove',  onMove, {passive:true});
+    vp.addEventListener('touchend',   onUp);
+
+    // Teclado (cuando el foco esté en botones o dots)
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft'){ e.preventDefault(); go(i - 1); }
+      if (e.key === 'ArrowRight'){ e.preventDefault(); go(i + 1); }
+    });
+
+    // Init
+    go(0);
+  })();
+
+
   // Limpieza por si el usuario navega o recarga
   window.addEventListener('beforeunload', () => {
     if (countdownTimer) clearInterval(countdownTimer);
