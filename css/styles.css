@@ -664,3 +664,25 @@ body.noscroll{overflow:hidden}
   opacity: 1;
 }
 
+/* ========== HERO DE LA TIRA (FOTO 1) ========== */
+
+.frame--hero .content{
+  padding: 0;
+}
+
+/* contenedor de la imagen: respeta el comportamiento general de .content */
+.content--hero{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+/* imagen responsive, sin distorsión */
+.content--hero .hero-photo{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
