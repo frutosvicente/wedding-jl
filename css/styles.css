@@ -588,3 +588,101 @@ body.noscroll{overflow:hidden}
   }
 }
 
+/* =========================
+   OVERRIDE FINAL TIMELINE
+   ========================= */
+
+/* Frame del timeline: mismo hueco que el resto, sin padding interno extra */
+.content--timeline{
+  padding: 0;
+  background: #000;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+/* El timeline ocupa todo el alto del .content */
+.content--timeline .timeline{
+  position: relative;
+  flex: 1;
+  height: 100%;
+}
+
+/* Viewport: sin aspect-ratio fijo, rellena el hueco */
+.content--timeline .timeline .viewport{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  cursor: grab;
+}
+.content--timeline .timeline .viewport:active{
+  cursor: grabbing;
+}
+
+/* Pista: 1 slide = 100% del viewport, se mueve con translateX(-100%, -200%...) */
+.content--timeline .timeline .track{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform .6s ease;
+  will-change: transform;
+}
+
+/* Slide: usa SIEMPRE la misma imagen panorámica, recortada en 4 tramos */
+.content--timeline .timeline .slide{
+  flex: 0 0 100%;
+  height: 100%;
+  background-image: url('../img/timeline-wide.jpg');
+  background-repeat: no-repeat;
+  background-size: 400% auto;          /* panorámica 4x de ancho, alto proporcional */
+  background-position: var(--pos) 50%; /* 0%, 33%, 66%, 100% */
+}
+
+/* Flechas (reutilizamos las que ya tenías pero las acotamos aquí) */
+.content--timeline .timeline .tl-btn{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+  font-size: 22px;
+  line-height: 40px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .2s ease, transform .15s ease;
+}
+.content--timeline .timeline .tl-btn:hover{
+  background: rgba(0,0,0,.75);
+  transform: translateY(-50%) scale(1.05);
+}
+.content--timeline .timeline .tl-btn:active{
+  transform: translateY(-50%) scale(.95);
+}
+.content--timeline .timeline .prev{ left: 10px; }
+.content--timeline .timeline .next{ right: 10px; }
+
+/* Sin dots ni texto visibles */
+.timeline--minimal .dots,
+.timeline--minimal .tl-caption{
+  display: none !important;
+}
+
+/* En móvil solo ajustamos un poco el tamaño de las flechas */
+@media (max-width:600px){
+  .content--timeline .timeline .tl-btn{
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+}
+
