@@ -447,9 +447,9 @@ body.noscroll{overflow:hidden}
 }
 
 .timeline .slide{
-  background-size: 400% 100%;
-  background-position: var(--pos) 50%;
+  background-size: 400% auto;
   background-repeat: no-repeat;
+  background-position: var(--pos) center;
   width: 100%;
   height: 100%;
 }
