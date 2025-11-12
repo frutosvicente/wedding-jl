@@ -592,7 +592,7 @@ body.noscroll{overflow:hidden}
    OVERRIDE FINAL TIMELINE
    ========================= */
 
-/* Contenedor del frame de la tira */
+/* Contenedor del frame */
 .content--timeline{
   padding: 0;
   background: #000;
@@ -601,13 +601,14 @@ body.noscroll{overflow:hidden}
   justify-content: center;
 }
 
-/* Quitar height:100% aquí para evitar el colapso */
+/* Timeline dentro del frame */
 .content--timeline .timeline{
   position: relative;
   flex: 1;
+  /* sin height:100% */
 }
 
-/* Viewport: altura real (responsive) */
+/* Viewport: altura REAL (no porcentaje) */
 .content--timeline .timeline .viewport{
   position: relative;
   width: 100%;
@@ -617,15 +618,15 @@ body.noscroll{overflow:hidden}
   box-shadow: 0 10px 30px rgba(0,0,0,.25);
   cursor: grab;
 
-  /* Altura responsive */
-  min-height: clamp(240px, 55svh, 420px);
+  /* aquí está la magia: altura fija/responsive */
+  height: clamp(240px, 55svh, 420px);
 }
 
 .content--timeline .timeline .viewport:active{
   cursor: grabbing;
 }
 
-/* Track ocupa toda la altura del viewport */
+/* Pista del carrusel */
 .content--timeline .timeline .track{
   display: flex;
   width: 100%;
@@ -634,7 +635,7 @@ body.noscroll{overflow:hidden}
   will-change: transform;
 }
 
-/* Diapositiva: 1/4 del timeline panorámico */
+/* Diapositivas: 1/4 del panorama */
 .content--timeline .timeline .slide{
   flex: 0 0 100%;
   height: 100%;
