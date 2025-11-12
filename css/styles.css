@@ -423,7 +423,6 @@ body.noscroll{overflow:hidden}
 }
 
 .timeline {
-  --tl-img: url('img/timeline-wide.jpg');
   position: relative;
   width: 100%;
 }
