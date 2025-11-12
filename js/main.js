@@ -219,8 +219,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateDots(){
       const dots = Array.from(dotsBox.children);
-      dots.forEach((d, idx) => d.setAttribute('aria-selected', idx === i ? 'true' : 'false'));
+      dots.forEach((d, idx) => {
+        const active = idx === i;
+        d.setAttribute('aria-selected', active ? 'true' : 'false');
+        d.classList.toggle('active', active);
+      });
     }
+
 
     function go(next){
       i = (next + n) % n;
