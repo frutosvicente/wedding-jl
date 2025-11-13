@@ -621,7 +621,7 @@ body.noscroll{overflow:hidden}
 
 @media (min-width: 820px){
   .content--timeline .timeline .viewport{
-    height: 540px;
+    height: 580px;
   }
 }
 
