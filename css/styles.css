@@ -612,11 +612,17 @@ body.noscroll{overflow:hidden}
   background: #fff;  /* antes #000 */
   box-shadow: 0 10px 30px rgba(0,0,0,.25);
   cursor: grab;
-  height: clamp(240px, 55svh, 420px); /* puedes subir o bajar estos valores */
+  height: clamp(240px, 55svh, 420px);
 }
 
 .content--timeline .timeline .viewport:active{
   cursor: grabbing;
+}
+
+@media (min-width: 1024px){
+  .content--timeline .timeline .viewport{
+    height: 440px;  /* ajusta 420–460px según lo que veas mejor */
+  }
 }
 
 /* track ocupa todo el alto del viewport */
