@@ -619,9 +619,9 @@ body.noscroll{overflow:hidden}
   cursor: grabbing;
 }
 
-@media (min-width: 1024px){
+@media (min-width: 820px){
   .content--timeline .timeline .viewport{
-    height: 440px;  /* ajusta 420–460px según lo que veas mejor */
+    height: 540px;
   }
 }
 
